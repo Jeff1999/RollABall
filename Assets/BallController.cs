@@ -2,47 +2,27 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public Rigidbody sphereRigidbody;
-    public float ballSpeed = 2f;
+    [SerializeField] private Rigidbody sphereRigidbody; // Rigidbody reference
+    [SerializeField] private float ballSpeed = 2f;      // Movement speed multiplier
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Optional: Start method to confirm initialization
     void Start()
     {
-        Debug.Log("Calling the Start method");
-
+        Debug.Log("BallController has been initialized.");
     }
 
-    // Update is called once per frame
-    void Update()
+    // Method to move the ball based on the input vector
+    public void MoveBall(Vector2 input)
     {
-        Vector2 inputVector = Vector2.zero; // intialize our input vector
+        // Convert 2D input vector to 3D for movement in the XZ plane
+        Vector3 inputXZPlane = new Vector3(input.x, 0, input.y);
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputVector += Vector2.up; // "a += b" <=> "a = a + b"
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputVector += Vector2.down;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector += Vector2.right;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector += Vector2.left;
-        }
-
-        Vector3 inputXZPlane = new Vector3(inputVector.x, 0, inputVector.y);
+        // Apply force to the Rigidbody to move the sphere
         sphereRigidbody.AddForce(inputXZPlane * ballSpeed);
 
-        Debug.Log("Resultant Vector: " + inputVector);
-        Debug.Log("Resultant 3D Vector: " + inputVector);
-
+        // Debug logs for verification
+        Debug.Log("Input Vector: " + input);
+        Debug.Log("3D Movement Vector: " + inputXZPlane);
     }
 }
 
