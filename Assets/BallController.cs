@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    public Rigidbody sphereRigidbody;
+    public float ballSpeed = 2f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,28 +15,34 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check for "W" key input
+        Vector2 inputVector = Vector2.zero; // intialize our input vector
+
         if (Input.GetKey(KeyCode.W))
         {
-            Debug.Log("User's Input: W");
+            inputVector += Vector2.up; // "a += b" <=> "a = a + b"
         }
 
-        // Check for "A" key input
-        if (Input.GetKey(KeyCode.A))
-        {
-            Debug.Log("User's Input: A");
-        }
-
-        // Check for "S" key input
         if (Input.GetKey(KeyCode.S))
         {
-            Debug.Log("User's Input: S");
+            inputVector += Vector2.down;
         }
 
-        // Check for "D" key input
         if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("User's Input: D");
+            inputVector += Vector2.right;
         }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            inputVector += Vector2.left;
+        }
+
+        Vector3 inputXZPlane = new Vector3(inputVector.x, 0, inputVector.y);
+        sphereRigidbody.AddForce(inputXZPlane * ballSpeed);
+
+        Debug.Log("Resultant Vector: " + inputVector);
+        Debug.Log("Resultant 3D Vector: " + inputVector);
+
     }
 }
+
